@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS files;
+CREATE TABLE "files" (
+	"id"	INTEGER,
+	"filename"	TEXT NOT NULL,
+	"filepath"	TEXT NOT NULL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);

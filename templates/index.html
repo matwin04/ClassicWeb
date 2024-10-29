@@ -7,6 +7,24 @@
 <body>
     <h1>ClassicWeb</h1>
     <h2>Web Server for vintage devices</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Filename</th>
+                <th>Filepath</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+            <tr>
+                <td>{{file['id']}}</td>
+                <td>{{file['filename']}}</td>
+                <td>{{file['filepath']}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
 
+    </table>
 </body>
 </html>
