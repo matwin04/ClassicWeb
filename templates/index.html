@@ -2,29 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Files</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-    <h1>ClassicWeb</h1>
-    <h2>Web Server for vintage devices</h2>
+    <h1>Files List</h1>
+    <a href="{{ url_for('upload_file') }}">Upload New File</a>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Filename</th>
                 <th>Filepath</th>
+                <th>Download</th>
             </tr>
         </thead>
         <tbody>
             {% for file in files %}
             <tr>
-                <td>{{file['id']}}</td>
-                <td>{{file['filename']}}</td>
-                <td>{{file['filepath']}}</td>
-            </tr>
-            {%endfor%}
-        </tbody>
+                <td>{{ file['id'] }}</td>
+                <td>{{ file['filename'] }}</td>
+                <td>{{ file['filepath'] }}</td>
+                <td><a href="{{ url_for('download_file', filename=file['filename']) }}">Download</a></td>
 
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </body>
 </html>

@@ -22,6 +22,8 @@ def getDB():
     conn = sqlite3.connect(app.config['DATABASE'])
     conn.row_factory = sqlite3.Row  # Enable dictionary-like row access
     return conn
+
+# PAGES
 @app.route('/')
 def index():
     conn = getDB()
@@ -32,7 +34,35 @@ def index():
         files=files,
     )
 
+#UPLOAD
+@app.route('/upload',methods=['GET','POST'])
+def upload_file():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash("NO FILE PART")
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash("NO SELECTED FILE")
+            return redirect(request.url)
+        if file:
+            filename = file.filename
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            
+            conn = getDB()
+            conn.execute("INSERT INTO files (filename,filepath) VALUES (?,?)",(filename,filepath))
+            conn.commit()
+            conn.close()
+            
+            flash("File Successfully Uploaded")
+            return redirect(url_for('index'))
+    return render_template("upload.html")
 
+#DOWNLOAD
+@app.route('/download/<filename>')
+def download_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 if __name__ == '__main__':
     init_db()
     app.run(
